@@ -263,8 +263,8 @@
                             <div data-i18n="Menu Akademik">Menu Akreditasi</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item @if (isset($menuAkreditasi)) {{ $menuAkreditasi }} @endif">
-                                <a href="{{ route('akreditasi.index') }}" class="menu-link">
+                            <li class="menu-item @if (isset($menuAkreditas)) {{ $menuAkreditas }} @endif">
+                                <a href="{{ route('akreditas.index') }}" class="menu-link">
                                     <div data-i18n="Account">Akreditasi (Sertifikat)</div>
                                 </a>
                             </li>
@@ -273,8 +273,8 @@
                                     <div data-i18n="Account">Instrumen Akreditasi</div>
                                 </a>
                             </li>
-                            <li class="menu-item  @if (isset($menuAkreditas)) {{ $menuAkreditas }} @endif">
-                                <a href="{{ route('akreditas.index') }}" class="menu-link">
+                            <li class="menu-item  @if (isset($menuAkreditasi)) {{ $menuAkreditasi }} @endif">
+                                <a href="{{ route('akreditasi.index') }}" class="menu-link">
                                     <div data-i18n="Connections">Dokumen Akreditas</div>
                                 </a>
                             </li>
@@ -284,6 +284,12 @@
                         <a href="{{ route('visitor.stats') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
                             <div data-i18n="Account Settings">Statistik Kunjungan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item @if (isset($menuKontak)) {{ $menuKontak }} @endif">
+                        <a href="{{ route('contact-socials.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-phone-call"></i>
+                            <div data-i18n="Account Settings">Kontak dan SosMed</div>
                         </a>
                     </li>
                     @endif

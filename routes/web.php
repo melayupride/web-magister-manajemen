@@ -70,6 +70,7 @@ use App\Http\Controllers\StafController as adminStafController;
 use App\Http\Controllers\TracerstudyController as adminTracerstudyController;
 use App\Http\Controllers\VisimisiController as adminVisimisiController;
 use App\Http\Controllers\InstrumenController as adminInstrumenController;
+use App\Http\Controllers\ContactSocialController as adminContactSocialController;
 use App\Http\Controllers\adminVisitorController;
 
 use App\Http\Controllers\PublikasiInternasionalController;
@@ -254,6 +255,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/visitor-stats/filter', [adminVisitorController::class, 'filter'])->name('visitor.stats.filter');
     Route::get('/visitor/stats/download/{type}', [adminVisitorController::class, 'downloadChart'])->name('visitor.stats.download');
     Route::get('/visitor/stats/download-metadata', [adminVisitorController::class, 'downloadMetadata'])->name('visitor.stats.download.metadata');
+        Route::resource('contact-socials', adminContactSocialController::class)->only([
+        'index', 'store', 'update', 'destroy'
+    ]);
 });
 
 Route::get('/produkDelete', [adminProdukSofdeletedController::class, 'postsdel'])->middleware('auth', 'admin');

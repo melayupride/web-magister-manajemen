@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Akreditas;
 use Exception;
 use App\Models\Post;
 use App\Models\User;
@@ -23,6 +24,7 @@ class PostController extends Controller
     {
         // Deteksi informasi pengunjung
         $agent = new Agent();
+        $akreditas = Akreditas::all(); // Or whatever your model name is
         $location = $this->getLocationData($request->ip());
         
         // Rekam kunjungan pengunjung
@@ -63,7 +65,7 @@ class PostController extends Controller
         $dataProduk = Produk::latest()->limit(6)->get();
         $logo = Logokerjasama::all();
 
-        return view('home.Blog', compact('pakai', 'dataList', 'dataProduk', 'visitorStats', 'logo'));
+        return view('home.Blog', compact('pakai', 'dataList', 'akreditas', 'dataProduk', 'visitorStats', 'logo'));
     }
 
     private function getDeviceType($agent)
