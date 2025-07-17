@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Kunjungan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,6 +35,11 @@ class DatabaseSeeder extends Seeder
             OrganisTableSeeder::class,
             StafTableSeeder::class,
             DaftarDosenTableSeeder::class,
+            AkreditasTableSeeder::class,
+            InstrumentTableSeeder::class,
+            AkreditasiTableSeeder::class,
+            ContactSocialTableSeeder::class,
+            KunjunganTableSeeder::class,
             // Tambahkan seeder lainnya di sini
         ]);
     }

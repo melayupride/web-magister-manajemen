@@ -41,7 +41,7 @@ class AkreditasController extends Controller
             ]);
 
             if ($request->hasFile('image')) {
-                $validatedData['image'] = $request->file('image')->store('akreditasi-images', 'public');
+                $validatedData['image'] = $request->file('image')->store('images', 'public');
             }
 
             $validatedData['user_id'] = auth()->id();
@@ -104,7 +104,7 @@ class AkreditasController extends Controller
                 }
                 
                 // Store new image
-                $validatedData['image'] = $request->file('image')->store('akreditasi-images', 'public');
+                $validatedData['image'] = $request->file('image')->store('images', 'public');
             } else {
                 // Keep the old image if no new image uploaded
                 $validatedData['image'] = $akreditas->image;
