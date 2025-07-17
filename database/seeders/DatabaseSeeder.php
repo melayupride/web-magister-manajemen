@@ -49,6 +49,10 @@ class DatabaseSeeder extends Seeder
             SemesterDuaTableSeeder::class,
             SemesterTigaTableSeeder::class,
             SemesterEmpatTableSeeder::class,
+            DedTableSeeder::class,
+            DkpsTableSeeder::class,
+            AdministrasiTableSeeder::class,
+            PenjaminanMutuTableSeeder::class,
             // Tambahkan seeder lainnya di sini
         ]);
     }
