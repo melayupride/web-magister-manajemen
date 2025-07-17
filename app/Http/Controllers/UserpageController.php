@@ -23,7 +23,7 @@ class UserpageController extends Controller
     public function akreditasppimfe()
     {
         $akreditas = Akreditas::orderBy('created_at', 'desc')->get();
-        return View('home.profil.akreditasi', compact('akreditas'));
+        return View('home.akreditasi.akreditas', compact('akreditas'));
     }
 
     public function sejarah()

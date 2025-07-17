@@ -1,9 +1,9 @@
 @extends('layouts.admin_template')
-@section('title', 'administrasi')
+@section('title', 'DKPS')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">administrasi /</span> Add
+        <span class="text-muted fw-light">Dokumen Kinerja Prodi /</span> Add
     </h4>
     <div class="row">
         <div class="col-lg-12 mb-4 order-0">
@@ -12,11 +12,11 @@
                     <div class="col-sm-12">
                         <div class="card-body">
                             <div class="col-lg-8">
-                                <form method="POST" action="{{ route('administrasi.store') }}" enctype="multipart/form-data" class="mt-5">
+                                <form method="POST" action="{{ route('dkps.store') }}" enctype="multipart/form-data" class="mt-5">
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="body" class="form-label">Administrasi</label>
+                                        <label for="body" class="form-label">DKPS</label>
                                         @error('body')
                                         <p class="text-danger">{{ $message }}</p>
                                         @enderror
@@ -25,7 +25,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="filedata" class="form-label">Post file Administrasi (PDF only)</label>
+                                        <label for="filedata" class="form-label">Upload DKPS (PDF only)</label>
                                         <div id="pdf-preview" class="my-3 d-none">
                                             <embed id="pdf-embed" src="" width="100%" height="500px" type="application/pdf">
                                         </div>

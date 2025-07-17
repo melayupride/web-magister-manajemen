@@ -1,9 +1,9 @@
 @extends('layouts.admin_template')
-@section('title', 'akreditas')
+@section('title', 'DKPS')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Data Akreditas /</span> List
+        <span class="text-muted fw-light">Dokumen Kinerja Prodi /</span> List
     </h4>
     <div class="row mt-3">
         <div class="col-lg-12 mb-4 order-0">
@@ -15,7 +15,7 @@
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title text-primary">List Data</h5>
 
-                                <a href="{{ route('akreditasi.create') }}">
+                                <a href="{{ route('dkps.create') }}">
                                     <button class="btn btn-primary">Tambah</button>
                                 </a>
                             </div>
@@ -29,7 +29,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($akreditasi as $post)
+                                    @foreach ($dkps as $post)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <div class="row">
@@ -45,13 +45,12 @@
                                             </div>
                                         </div>
                                         <td>
-                                            <a href="{{ route('akreditasi.show', $post->id) }}" class="badge bg-info"><i
-                                                    class="bi bi-eye-fill"></i></a>
-
-                                            <a href="{{ route('akreditasi.edit', $post->id) }}"
+                                            <a href="{{ route('dkps.show', $post->id) }}"
+                                                class="badge bg-info"><i class="bi bi-eye-fill"></i></a>
+                                            <a href="{{ route('dkps.edit', $post->id) }}"
                                                 class="badge bg-warning"><i class="bi bi-pencil-square"></i></a>
 
-                                            <form action="{{ route('akreditasi.destroy', $post->id) }}" method="POST"
+                                            <form action="{{ route('dkps.destroy', $post->id) }}" method="POST"
                                                 class="d-inline">
                                                 @method('DELETE')
                                                 @csrf
@@ -69,7 +68,7 @@
                 </div>
             </div>
         </div>
-        {{ $akreditasi->withQueryString()->links() }}
+        {{ $dkps->withQueryString()->links() }}
     </div>
 </div>
 @endsection

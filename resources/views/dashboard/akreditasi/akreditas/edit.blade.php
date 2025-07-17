@@ -26,6 +26,15 @@
                             enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
+                            <div class="mb-3">
+                                    <label for="body" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="body" name="body"
+                                        placeholder="Input body" aria-describedby="defaultFormControlHelp"
+                                        value="{{ $akreditas->body }}">
+                                    @error('body')
+                                        <div class="error">{{ $message }}</div>
+                                    @enderror
+                            </div>     
 
                             <div class="mb-3">
                                 <label for="image" class="form-label">Post Image</label>
@@ -43,6 +52,16 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    @error('description')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    <input id="description" type="hidden" name="description"
+                                        value="{{ old('description', $akreditas->description) }}">
+                                    <trix-editor input="description"></trix-editor>
                             </div>
 
                             <div class="mt-3">

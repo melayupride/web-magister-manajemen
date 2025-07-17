@@ -16,6 +16,17 @@
                                     enctype="multipart/form-data" class="mt-5">
                                     @csrf
                                     <div class="mb-3">
+                                        <label for="body" class="form-label">Title</label>
+                                        <input type="text" class="form-control @error('body') is-invalid @enderror"
+                                            id="body" name="body" required autofocus value="{{ old('body') }}">
+                                        @error('body')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
                                         <label for="image" class="form-label">Post Image</label>
                                         <img class="img-preview img-fluid my-3 col-md-3">
                                         <input class="form-control  @error('image') is-invalid @enderror" type="file"
@@ -26,6 +37,15 @@
                                             {{ $message }}
                                         </div>
                                         @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        @error('description')
+                                        <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                        <input id="description" type="hidden" name="description" value="{{ old('description') }}">
+                                        <trix-editor input="description"></trix-editor>
                                     </div>
 
                                     <div class="mt-3">
@@ -45,6 +65,7 @@
 <script>
     const title = document.querySelector('#title');
         const slug = document.querySelector('#slug');
+        
 
         title.addEventListener('change', () => {
             fetch('/dashboard/posts/checkSlug?title=' + title.value)

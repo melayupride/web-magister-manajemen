@@ -63,12 +63,19 @@
                     <ul>
                         <li><a href="https://elearning.unimal.ac.id/" target="_balck">E-Learning</a></li>
                         <li><a href="http://portal.unimal.ac.id/" target="_black">Portal Akademik</a></li>
-                        <li><a href="{{ url('/akreditas-ppimfe') }}">Akreditasi</a></li>
                         <li><a href="{{ url('/truktur-kurikulum') }}">Struktur Kurikulum</a></li>
                         <li><a href="{{ url('/kelender-akademik') }}">Kalender Akademik</a></li>
                         <li><a href="{{ url('/panduan-akademik') }}">Panduan Akademik</a></li>
                         <li><a href="{{ url('/galeri-akademik') }}">Galeri</a></li>
                         <li><a href="{{ url('/download-akademik') }}">Download</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#"><span>Akreditasi</span> <i
+                            class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                        <li><a href="{{ url('/akreditas-ppimfe') }}">Sertifikat Akreditasi</a></li>
+                        <li><a href="{{ url('/instrumen-akreditasi') }}">Instrumen Akreditasi</a></li>
+                        <li><a href="{{ url('/akreditasi-akademik') }}">Dokumen Akreditasi</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#"><span>Kemahasiswaan</span> <i
@@ -90,9 +97,10 @@
                 <li class="dropdown"><a href="#"><span>Download</span> <i
                             class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
-                        <li><a href="{{ url('/akreditasi-akademik') }}">Dokumen Akreditasi</a></li>
                         <li><a href="{{ url('/download-adminis') }}">Dokumen Administrasi</a></li>
                         <li><a href="{{ url('/download-penjaminan-mutu') }}">Dokumen Penjaminan <br> Mutu</a></li>
+                        <li><a href="{{ url('/download-ded') }}">Dokumen Evaluasi  <br> Diri (DED)</a></li>
+                        <li><a href="{{ url('/download-dkps') }}">Dokumen Kinerja <br> Program Studi (DKPS)</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

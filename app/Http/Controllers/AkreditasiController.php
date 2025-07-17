@@ -16,7 +16,7 @@ class AkreditasiController extends Controller
     {
         $akreditasi = Akreditasi::latest()->orderBy('created_at', 'desc')->paginate(10);
         $menuAkreditasi = 'active';
-        return view('dashboard.menudownload.akreditasi.index', compact('akreditasi', 'menuAkreditasi'));
+        return view('dashboard.akreditasi.akreditasi.index', compact('akreditasi', 'menuAkreditasi'));
     }
 
     /**
@@ -25,7 +25,7 @@ class AkreditasiController extends Controller
     public function create()
     {
         $menuAkreditasi = 'active';
-        return view('dashboard.menudownload.akreditasi.create', compact('menuAkreditasi'));
+        return view('dashboard.akreditasi.akreditasi.create', compact('menuAkreditasi'));
     }
 
     /**
@@ -37,6 +37,9 @@ class AkreditasiController extends Controller
             $validatedData = $request->validate([
                 'filedata' => 'file|mimes:jpeg,png,jpg,pdf|max:5024',
                 'body' => 'required|min:10',
+                'peringkat' => 'required|string|max:255',
+                'status' => 'required|in:Masih Berlaku,Sudah Kedaluwarsa',
+                'lembaga_akreditasi' => 'required|string|max:255',
             ]);
 
             if ($request->file('filedata')) {
@@ -61,7 +64,7 @@ class AkreditasiController extends Controller
 
         $menuAkreditasi = 'active';
         $akreditasi = Akreditasi::findOrFail($id);
-        return view('dashboard.menudownload.akreditasi.show', compact('akreditasi', 'menuAkreditasi'));
+        return view('dashboard.akreditasi.akreditasi.show', compact('akreditasi', 'menuAkreditasi'));
     }
 
     /**
@@ -87,28 +90,32 @@ class AkreditasiController extends Controller
             $validatedData = $request->validate([
                 'filedata' => 'file|mimes:jpeg,png,jpg,pdf|max:5024',
                 'body' => 'required|min:10',
+                'peringkat' => 'required|string|max:255',
+                'status' => 'required|in:Masih Berlaku,Sudah Kedaluwarsa',
+                'lembaga_akreditasi' => 'required|string|max:255',
             ]);
-
-            if ($request->file('filedata')) {
-                $validatedData['filedata'] = $request->file('filedata')->store('images');
-            }
 
             $akreditasi = Akreditasi::findOrFail($id);
 
+            // Handle file upload
             if ($request->file('filedata')) {
-                if ($request->oldImage) {
-                    Storage::delete($request->oldImage);
+                // Delete old file if exists
+                if ($akreditasi->filedata) {
+                    Storage::delete($akreditasi->filedata);
                 }
                 $validatedData['filedata'] = $request->file('filedata')->store('images');
+            } else {
+                // Keep the old file if no new file is uploaded
+                $validatedData['filedata'] = $akreditasi->filedata;
             }
 
             $validatedData['user_id'] = auth()->user()->id;
 
             $akreditasi->update($validatedData);
 
-            return redirect()->route('akreditasi.index')->with(['success' => 'Update successfully']);
+            return redirect()->route('akreditasi.index')->with(['success' => 'Data akreditasi berhasil diperbarui']);
         } catch (Exception $e) {
-            return redirect()->route('akreditasi.index')->with(['failed' => 'Ada kesalahan system. error :' . $e->getMessage()]);
+            return redirect()->route('akreditasi.index')->with(['failed' => 'Ada kesalahan sistem. Error: ' . $e->getMessage()]);
         }
     }
 

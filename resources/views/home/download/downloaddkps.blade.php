@@ -1,13 +1,13 @@
 @extends('welcome')
 
-@section('title', 'Download Administrasi')
+@section('title', 'Download DKPS')
 @section('content')
 
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10 my-3">
             <h2 class="mt-3">
-                Download Dokumen <br><span style="color: #008374">Administrasi</span>
+                Download Dokumen <br><span style="color: #008374">Kinerja Program Studi (DKPS) </span>
             </h2>
             <div class="alert alert-info mt-5">
                 <i class="bi bi-info-circle-fill"></i> Klik pada nama file untuk melihat preview dokumen sebelum mendownload.
@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($downadministrasi as $item)
+                        @foreach ($downdkps as $item)
                         <tr>
                             <td>
                                 <a href="#" class="pdf-preview-link d-flex align-items-center gap-2"

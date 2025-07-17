@@ -1,13 +1,14 @@
 @extends('welcome')
 
-@section('title', 'Download Administrasi')
+@section('title', 'akreditasi')
+
 @section('content')
 
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10 my-3">
             <h2 class="mt-3">
-                Download Dokumen <br><span style="color: #008374">Administrasi</span>
+                Download Dokumen <br><span style="color: #008374">Akreditasi</span>
             </h2>
             <div class="alert alert-info mt-5">
                 <i class="bi bi-info-circle-fill"></i> Klik pada nama file untuk melihat preview dokumen sebelum mendownload.
@@ -18,11 +19,14 @@
                     <thead>
                         <tr>
                             <th scope="col">Nama Dokumen</th>
+                            <th scope="col">Peringkat</th>
+                            <th scope="col">Lembaga Akreditasi</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Download File</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($downadministrasi as $item)
+                        @foreach ($UserAkreditasi as $item)
                         <tr>
                             <td>
                                 <a href="#" class="pdf-preview-link d-flex align-items-center gap-2"
@@ -34,6 +38,17 @@
                                     </div>
                                 </a>
                             </td>
+                            <td>
+                                <span class="badge bg-info text-dark">{{ $item->peringkat }}</span>
+                            </td>
+                            <td>{{ $item->lembaga_akreditasi }}</td>
+                            <td>
+                                        @if($item->status == 'Masih Berlaku')
+                                            <span class="badge bg-success">{{ $item->status }}</span>
+                                        @else
+                                            <span class="badge bg-warning text-dark">{{ $item->status }}</span>
+                                        @endif
+                                    </td>
                             <td>
                                 <a href="{{ asset('storage/' . $item->filedata) }}" download>
                                     <i class="bi bi-arrow-down-circle-fill"></i> Download
@@ -151,4 +166,5 @@
         });
     });
 </script>
+
 @endsection

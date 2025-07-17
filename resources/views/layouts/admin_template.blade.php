@@ -131,11 +131,6 @@
                                     <div data-i18n="Connections">Sarana & Prasarana</div>
                                 </a>
                             </li>
-                            <li class="menu-item  @if (isset($menuAkreditas)) {{ $menuAkreditas }} @endif">
-                                <a href="{{ route('akreditas.index') }}" class="menu-link">
-                                    <div data-i18n="Connections">Akreditas</div>
-                                </a>
-                            </li>
                             <li class="menu-item  @if (isset($menuVisimisi)) {{ $menuVisimisi }} @endif">
                                 <a href="{{ route('visimisi.index') }}" class="menu-link">
                                     <div data-i18n="Connections">Visi Misi</div>
@@ -212,11 +207,6 @@
                             <div data-i18n="Menu Akademik">Menu Download</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item @if (isset($menuAkreditasi)) {{ $menuAkreditasi }} @endif">
-                                <a href="{{ route('akreditasi.index') }}" class="menu-link">
-                                    <div data-i18n="Account">Akreditas</div>
-                                </a>
-                            </li>
                             <li class="menu-item @if (isset($menuAdministrasi)) {{ $menuAdministrasi }} @endif">
                                 <a href="{{ route('administrasi.index') }}" class="menu-link">
                                     <div data-i18n="Account">Data Administrasi</div>
@@ -225,6 +215,16 @@
                             <li class="menu-item @if (isset($menuPenjaminanmutu)) {{ $menuPenjaminanmutu }} @endif">
                                 <a href="{{ route('penjaminanmutu.index') }}" class="menu-link">
                                     <div data-i18n="Account">Data Penjaminan Mutu</div>
+                                </a>
+                            </li>
+                              <li class="menu-item @if (isset($menuDED)) {{ $menuDED }} @endif">
+                                <a href="{{ route('ded.index') }}" class="menu-link">
+                                    <div data-i18n="Account">Dokumen Evaluasi Diri</div>
+                                </a>
+                            </li>
+                              <li class="menu-item @if (isset($menuDKPS)) {{ $menuDKPS }} @endif">
+                                <a href="{{ route('dkps.index') }}" class="menu-link">
+                                    <div data-i18n="Account">Dokumen Kinerja Prodi</div>
                                 </a>
                             </li>
                         </ul>
@@ -256,6 +256,35 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="menu-item open" style="">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Menu Akademik">Menu Akreditasi</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item @if (isset($menuAkreditasi)) {{ $menuAkreditasi }} @endif">
+                                <a href="{{ route('akreditasi.index') }}" class="menu-link">
+                                    <div data-i18n="Account">Akreditasi (Sertifikat)</div>
+                                </a>
+                            </li>
+                            <li class="menu-item @if (isset($menuInstrumen)) {{ $menuInstrumen }} @endif">
+                                <a href="{{ route('instrumenakred.index') }}" class="menu-link">
+                                    <div data-i18n="Account">Instrumen Akreditasi</div>
+                                </a>
+                            </li>
+                            <li class="menu-item  @if (isset($menuAkreditas)) {{ $menuAkreditas }} @endif">
+                                <a href="{{ route('akreditas.index') }}" class="menu-link">
+                                    <div data-i18n="Connections">Dokumen Akreditas</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item @if (isset($menuVisitor)) {{ $menuVisitor }} @endif">
+                        <a href="{{ route('visitor.stats') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+                            <div data-i18n="Account Settings">Statistik Kunjungan</div>
+                        </a>
                     </li>
                     @endif
                     {{-- @endcan --}}

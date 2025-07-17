@@ -25,9 +25,12 @@ use App\Models\Downloadakademik as UserDownloadakademik;
 use App\Models\Semesterempat as UserSemesterempat;
 use App\Models\Administrasi as UserAdministrasi;
 use App\Models\Penjaminanmutu as adminPenjaminanmutu;
+use App\Models\DED as adminDED;
+use App\Models\DKPS as adminDKPS;
 use App\Models\Akreditasi as UserAkreditasi;
 use App\Models\Prestasisiswa as UserPrestasisiswa;
 use App\Models\Tracerstudy as UserTracerstudy;
+use App\Models\Instrumen as UserInstrumen;
 use App\Models\Publikasi as UserPublikasi;
 
 // Admin
@@ -42,6 +45,8 @@ use App\Http\Controllers\CategoryProdukController as adminCategoryProdukControll
 use App\Http\Controllers\DaftardosenController as adminDaftardosenController;
 use App\Http\Controllers\DashboardPostController as adminDashboardPostController;
 use App\Http\Controllers\DownloadakademikController as adminDownloadakademikController;
+use App\Http\Controllers\DEDController as adminDEDController;
+use App\Http\Controllers\DKPSController as adminDKPSController;
 use App\Http\Controllers\GaleriakademikController as adminGaleriakademikController;
 use App\Http\Controllers\KelenderController as adminKelenderController;
 use App\Http\Controllers\KerjasamaController as adminKerjasamaController;
@@ -64,6 +69,8 @@ use App\Http\Controllers\SemestertigaController as adminSemestertigaController;
 use App\Http\Controllers\StafController as adminStafController;
 use App\Http\Controllers\TracerstudyController as adminTracerstudyController;
 use App\Http\Controllers\VisimisiController as adminVisimisiController;
+use App\Http\Controllers\InstrumenController as adminInstrumenController;
+use App\Http\Controllers\adminVisitorController;
 
 use App\Http\Controllers\PublikasiInternasionalController;
 use App\Http\Controllers\PublikasiNasionalController;
@@ -106,6 +113,20 @@ Route::controller(UserpageController::class)->group(function () {
     Route::get('/kerja-sama-aliansi', 'kerjasama')->name('kerja-sama-aliansi');
     Route::get('/rencana-strategi', 'rencana')->name('rencana-strategi');
     Route::get('/truktur-organisasi', 'organnis')->name('truktur-organisasi');
+});
+
+Route::get('/instrumen-akreditasi', function () {
+    $search = request('search');
+    
+    $instrumen = UserInstrumen::when($search, function($query) use ($search) {
+                    return $query->where('body', 'like', '%'.$search.'%')
+                                 ->orWhere('link', 'like', '%'.$search.'%');
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(10)
+                ->withQueryString();
+    
+    return view('home.akreditasi.instrumen', compact('instrumen'));
 });
 
 Route::get('/page-staf', function () {
@@ -168,11 +189,21 @@ Route::get('/download-penjaminan-mutu', function () {
     return view('home.download.penjaminanmutu', compact('downpenjaminanmutu'));
 });
 
+Route::get('/download-ded', function () {
+    $downded = adminDED::orderBy('created_at', 'desc')->get();
+    return view('home.download.downloadded', compact('downded'));
+});
+
+Route::get('/download-dkps', function () {
+    $downdkps = adminDKPS::orderBy('created_at', 'desc')->get();
+    return view('home.download.downloaddkps', compact('downdkps'));
+});
+
 Route::get('/akreditasi-akademik', function () {
     $UserAkreditasi = UserAkreditasi::orderBy('created_at', 'desc')->paginate(5);
     $UserAkreditasi->appends(request()->query());
     Paginator::useBootstrap();
-    return view('home.download.akreditasi', compact('UserAkreditasi'));
+    return view('home.akreditasi.akreditasi', compact('UserAkreditasi'));
 });
 
 // Kemahasiswaan
@@ -219,6 +250,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('posts', adminDashboardPostController::class);
     Route::resource('category', adminCategoryController::class);
     Route::resource('pemakaian', adminPemakaianController::class);
+    Route::get('/visitor-stats', [adminVisitorController::class, 'index'])->name('visitor.stats');
+    Route::get('/visitor-stats/filter', [adminVisitorController::class, 'filter'])->name('visitor.stats.filter');
+    Route::get('/visitor/stats/download/{type}', [adminVisitorController::class, 'downloadChart'])->name('visitor.stats.download');
+    Route::get('/visitor/stats/download-metadata', [adminVisitorController::class, 'downloadMetadata'])->name('visitor.stats.download.metadata');
 });
 
 Route::get('/produkDelete', [adminProdukSofdeletedController::class, 'postsdel'])->middleware('auth', 'admin');
@@ -233,7 +268,6 @@ Route::get('/pakai/{id}/restore', [adminPemakaianController::class, 'restore'])-
 // Bagian Menu Profil
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('sejarahpmim', adminSejarahpmimController::class);
-    Route::resource('akreditas', adminAkreditasController::class);
     Route::resource('visimisi', adminVisimisiController::class);
     Route::resource('profillulus', adminProfillulusController::class);
     Route::resource('kerjasama', adminKerjasamaController::class);
@@ -259,8 +293,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('administrasi', adminAdministrasiController::class);
     Route::resource('penjaminanmutu', adminPenjaminanmutuController::class);
+    Route::resource('ded', adminDEDController::class);
+    Route::resource('dkps', adminDKPSController::class);
+});
+
+// Bagian Menu Akreditasi
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('akreditas', adminAkreditasController::class);
+    Route::resource('instrumenakred', adminInstrumenController::class);
     Route::resource('akreditasi', AdminAkreditasiController::class);
 });
+
 
 // Kemahasiswaan
 Route::middleware(['auth', 'admin'])->group(function () {

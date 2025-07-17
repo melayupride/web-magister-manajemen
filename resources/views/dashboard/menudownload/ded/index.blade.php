@@ -1,9 +1,9 @@
 @extends('layouts.admin_template')
-@section('title', 'akreditas')
+@section('title', 'DED')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Data Akreditas /</span> List
+        <span class="text-muted fw-light">Dokumen Evaluasi Diri /</span> List
     </h4>
     <div class="row mt-3">
         <div class="col-lg-12 mb-4 order-0">
@@ -15,7 +15,7 @@
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title text-primary">List Data</h5>
 
-                                <a href="{{ route('akreditas.create') }}">
+                                <a href="{{ route('ded.create') }}">
                                     <button class="btn btn-primary">Tambah</button>
                                 </a>
                             </div>
@@ -23,21 +23,34 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">akreditas</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">File</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($akreditas as $g)
+                                    @foreach ($ded as $post)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <td>
+                                                    <article>
+                                                        {!! $post->body !!}
+                                                    </article>
+                                                </td>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <td>{{ $post->filedata }}</td>
+                                            </div>
+                                        </div>
                                         <td>
-                                            <img src="{{ asset('storage/' . $g->image) }}" alt="image" width="150">
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('akreditas.edit', $g->id) }}" class="badge bg-warning"><i
-                                                    class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ route('ded.show', $post->id) }}"
+                                                class="badge bg-info"><i class="bi bi-eye-fill"></i></a>
+                                            <a href="{{ route('ded.edit', $post->id) }}"
+                                                class="badge bg-warning"><i class="bi bi-pencil-square"></i></a>
 
-                                            <form action="{{ route('akreditas.destroy', $g->id) }}" method="POST"
+                                            <form action="{{ route('ded.destroy', $post->id) }}" method="POST"
                                                 class="d-inline">
                                                 @method('DELETE')
                                                 @csrf
@@ -55,6 +68,7 @@
                 </div>
             </div>
         </div>
+        {{ $ded->withQueryString()->links() }}
     </div>
 </div>
 @endsection

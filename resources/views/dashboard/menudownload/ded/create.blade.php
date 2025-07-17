@@ -1,9 +1,9 @@
 @extends('layouts.admin_template')
-@section('title', 'akreditas')
+@section('title', 'DED')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">akreditas /</span> Add
+        <span class="text-muted fw-light">Dokumen Evaluasi Diri /</span> Add
     </h4>
     <div class="row">
         <div class="col-lg-12 mb-4 order-0">
@@ -12,12 +12,11 @@
                     <div class="col-sm-12">
                         <div class="card-body">
                             <div class="col-lg-8">
-                                <form method="POST" action="{{ route('akreditasi.store') }}"
-                                    enctype="multipart/form-data" class="mt-5">
+                                <form method="POST" action="{{ route('ded.store') }}" enctype="multipart/form-data" class="mt-5">
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="body" class="form-label">Akreditasi</label>
+                                        <label for="body" class="form-label">DED</label>
                                         @error('body')
                                         <p class="text-danger">{{ $message }}</p>
                                         @enderror
@@ -26,18 +25,19 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="filedata" class="form-label">Post file akreditasi</label>
-                                        <img class="img-preview img-fluid my-3 col-md-3">
-                                        <input class="form-control  @error('filedata') is-invalid @enderror" type="file"
-                                            id="filedata" name="filedata" value="{{ old('filedata') }}"
-                                            onchange="proviewImage()">
+                                        <label for="filedata" class="form-label">Upload DED (PDF only)</label>
+                                        <div id="pdf-preview" class="my-3 d-none">
+                                            <embed id="pdf-embed" src="" width="100%" height="500px" type="application/pdf">
+                                        </div>
+                                        <input class="form-control @error('filedata') is-invalid @enderror" type="file"
+                                            id="filedata" name="filedata" accept="application/pdf"
+                                            onchange="previewPDF()">
                                         @error('filedata')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                         @enderror
                                     </div>
-
 
                                     <div class="mt-3">
                                         <input type="submit" value="Tambah" id="save" name="save"
@@ -54,32 +54,29 @@
 </div>
 
 <script>
-    const title = document.querySelector('#title');
-        const slug = document.querySelector('#slug');
+    document.addEventListener('trix-file-accept', function(e) {
+        e.preventDefault();
+    });
 
-        title.addEventListener('change', () => {
-            fetch('/dashboard/posts/checkSlug?title=' + title.value)
-                .then(response => response.json())
-                .then(data => slug.value = data.slug);
-        });
-
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-
-
-        function proviewImage() {
-            const image = document.querySelector('#image');
-            const imgPreview = document.querySelector('.img-preview');
-
-            imgPreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                imgPreview.src = oFREvent.target.result;
-            };
+    function previewPDF() {
+        const fileInput = document.querySelector('#filedata');
+        const pdfPreview = document.querySelector('#pdf-preview');
+        const pdfEmbed = document.querySelector('#pdf-embed');
+        
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            
+            // Check if file is PDF
+            if (file.type !== 'application/pdf') {
+                alert('Hanya file PDF yang diperbolehkan');
+                fileInput.value = '';
+                return;
+            }
+            
+            const fileURL = URL.createObjectURL(file);
+            pdfEmbed.src = fileURL;
+            pdfPreview.classList.remove('d-none');
         }
+    }
 </script>
 @endsection

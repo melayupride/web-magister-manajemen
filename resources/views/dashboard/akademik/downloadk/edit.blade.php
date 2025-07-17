@@ -2,7 +2,7 @@
 @section('title', 'Download Akademik')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms Download AKademik /</span> Edit Data</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms Download Akademik /</span> Edit Data</h4>
 
     <div class="row">
         @if ($message = Session::get('success'))
@@ -19,7 +19,7 @@
         @endif
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Edit Post</h5>
+                <h5 class="card-header">Edit Dokumen Download Akademik</h5>
                 <div class="card-body">
                     <div class="col-lg-12">
                         <form method="POST" action="{{ route('downloadakademik.update', $downloadk->id) }}" class="mt-5"
@@ -27,26 +27,34 @@
                             @method('PUT')
                             @csrf
                             <div class="mb-3">
-                                <label for="body" class="form-label">Downlaod Akademik</label>
+                                <label for="body" class="form-label">Konten Download Akademik</label>
                                 @error('body')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
-                                <input id="body" type="hidden" name="body" value="{{ old('body', $downloadk->body) }}">
+                                <input id="body" type="hidden" name="body"
+                                    value="{{ old('body', $downloadk->body) }}">
                                 <trix-editor input="body"></trix-editor>
                             </div>
 
                             <div class="mb-3">
-                                <label for="filedata" class="form-label">Post File Downlaod Akademik</label>
-                                <input type="hidden" name="oldImage" value="{{ $downloadk->filedata }}">
+                                <label for="filedata" class="form-label">File Download Akademik (PDF only)</label>
+                                <input type="hidden" name="oldFile" value="{{ $downloadk->filedata }}">
                                 @if ($downloadk->filedata)
-                                <img src="{{ asset('storage/' . $downloadk->filedata) }}"
-                                    class="img-preview img-fluid my-3 col-md-3 d-block">
-                                @else
-                                <img class="img-preview img-fluid my-3 col-md-3">
+                                <div id="current-pdf" class="my-3">
+                                    <p>File Saat Ini:</p>
+                                    <embed src="{{ asset('storage/' . $downloadk->filedata) }}" width="100%" height="500px" type="application/pdf">
+                                    <div class="mt-2">
+                                        <a href="{{ asset('storage/' . $downloadk->filedata) }}" target="_blank" class="btn btn-sm btn-info">Lihat PDF Lengkap</a>
+                                    </div>
+                                </div>
                                 @endif
-                                <input class="form-control  @error('filedata') is-invalid @enderror" type="file"
-                                    id="filedata" name="filedata" value="{{ old('filedata') }}"
-                                    onchange="proviewImage()">
+                                <div id="pdf-preview" class="my-3 d-none">
+                                    <p>Pratinjau File Baru:</p>
+                                    <embed id="pdf-embed" src="" width="100%" height="500px" type="application/pdf">
+                                </div>
+                                <input class="form-control @error('filedata') is-invalid @enderror" type="file"
+                                    id="filedata" name="filedata" accept="application/pdf"
+                                    onchange="previewPDF()">
                                 @error('filedata')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -55,9 +63,9 @@
                             </div>
 
                             <div class="mt-3">
-                                <input type="submit" value="Update" id="save" name="save" class="btn btn-primary">
+                                <input type="submit" value="Perbarui" id="save" name="save" class="btn btn-primary">
+                                <a href="{{ route('downloadakademik.index') }}" class="btn btn-secondary">Batal</a>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -67,32 +75,35 @@
 </div>
 
 <script>
-    const title = document.querySelector('#title');
-        const slug = document.querySelector('#slug');
+    document.addEventListener('trix-file-accept', function(e) {
+        e.preventDefault();
+    });
 
-        title.addEventListener('change', () => {
-            fetch('/dashboard/posts/checkSlug?title=' + title.value)
-                .then(response => response.json())
-                .then(data => slug.value = data.slug);
-        });
-
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-
-
-        function proviewImage() {
-            const image = document.querySelector('#image');
-            const imgPreview = document.querySelector('.img-preview');
-
-            imgPreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                imgPreview.src = oFREvent.target.result;
-            };
+    function previewPDF() {
+        const fileInput = document.querySelector('#filedata');
+        const pdfPreview = document.querySelector('#pdf-preview');
+        const pdfEmbed = document.querySelector('#pdf-embed');
+        const currentPdf = document.querySelector('#current-pdf');
+        
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            
+            // Check if file is PDF
+            if (file.type !== 'application/pdf') {
+                alert('Hanya file PDF yang diperbolehkan');
+                fileInput.value = '';
+                return;
+            }
+            
+            const fileURL = URL.createObjectURL(file);
+            pdfEmbed.src = fileURL;
+            pdfPreview.classList.remove('d-none');
+            
+            // Hide current PDF preview when new file is selected
+            if (currentPdf) {
+                currentPdf.classList.add('d-none');
+            }
         }
+    }
 </script>
 @endsection

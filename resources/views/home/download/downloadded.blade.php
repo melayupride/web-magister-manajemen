@@ -1,13 +1,13 @@
 @extends('welcome')
 
-@section('title', 'Download Administrasi')
+@section('title', 'Download DED')
 @section('content')
 
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10 my-3">
             <h2 class="mt-3">
-                Download Dokumen <br><span style="color: #008374">Administrasi</span>
+                Download Dokumen <br><span style="color: #008374">Evaluasi Diri (DED) </span>
             </h2>
             <div class="alert alert-info mt-5">
                 <i class="bi bi-info-circle-fill"></i> Klik pada nama file untuk melihat preview dokumen sebelum mendownload.
@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($downadministrasi as $item)
+                        @foreach ($downded as $item)
                         <tr>
                             <td>
                                 <a href="#" class="pdf-preview-link d-flex align-items-center gap-2"
@@ -33,6 +33,7 @@
                                         <span class="pdf-preview-hint d-block text-muted">(Klik untuk preview)</span>
                                     </div>
                                 </a>
+
                             </td>
                             <td>
                                 <a href="{{ asset('storage/' . $item->filedata) }}" download>

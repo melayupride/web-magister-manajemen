@@ -16,7 +16,7 @@ class AkreditasController extends Controller
     {
         $akreditas = Akreditas::all();
         $menuAkreditas = 'active';
-        return view('dashboard.profil.akreditas.index', compact('menuAkreditas', 'akreditas'));
+        return view('dashboard.akreditasi.akreditas.index', compact('menuAkreditas', 'akreditas'));
     }
 
     /**
@@ -25,7 +25,7 @@ class AkreditasController extends Controller
     public function create()
     {
         $menuAkreditas = 'active';
-        return view('dashboard.profil.akreditas.create', compact('menuAkreditas'));
+        return view('dashboard.akreditasi.akreditas.create', compact('menuAkreditas'));
     }
 
     /**
@@ -35,20 +35,28 @@ class AkreditasController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'image' => 'image|file|mimes:jpeg,png,jpg,max:3072',
+                'body' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:3072',
             ]);
 
-            if ($request->file('image')) {
-                $validatedData['image'] = $request->file('image')->store('images');
+            if ($request->hasFile('image')) {
+                $validatedData['image'] = $request->file('image')->store('akreditasi-images', 'public');
             }
 
-            $validatedData['user_id'] = auth()->user()->id;
+            $validatedData['user_id'] = auth()->id();
 
             Akreditas::create($validatedData);
 
-            return redirect()->route('akreditas.index')->with(['success' => 'created successfully']);
-        } catch (Exception $e) {
-            return redirect()->route('akreditas.index')->with(['failed' => 'Ada kesalahan system. error :' . $e->getMessage()]);
+            return redirect()
+                ->route('akreditas.index')
+                ->with('success', 'Data akreditasi berhasil ditambahkan!');
+                
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('akreditas.index')
+                ->with('error', 'Gagal menambahkan data akreditasi. Error: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -80,25 +88,40 @@ class AkreditasController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'image' => 'image|file|mimes:jpeg,png,jpg,max:3072',
+                'body' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:3072',
+                'oldImage' => 'nullable|string' // Untuk validasi oldImage dari form
             ]);
 
             $akreditas = Akreditas::findOrFail($id);
 
-            if ($request->file('image')) {
-                if ($request->oldImage) {
-                    Storage::delete($request->oldImage);
+            // Handle image update
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($akreditas->image) {
+                    Storage::disk('public')->delete($akreditas->image);
                 }
-                $validatedData['image'] = $request->file('image')->store('images');
+                
+                // Store new image
+                $validatedData['image'] = $request->file('image')->store('akreditasi-images', 'public');
+            } else {
+                // Keep the old image if no new image uploaded
+                $validatedData['image'] = $akreditas->image;
             }
 
-            $validatedData['user_id'] = auth()->user()->id;
-
+            // Update record
             $akreditas->update($validatedData);
 
-            return redirect()->route('akreditas.index')->with(['success' => 'Update successfully']);
-        } catch (Exception $e) {
-            return redirect()->route('akreditas.index')->with(['failed' => 'Ada kesalahan system. error :' . $e->getMessage()]);
+            return redirect()
+                ->route('akreditas.index')
+                ->with('success', 'Data akreditasi berhasil diperbarui!');
+                
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('akreditas.index')
+                ->with('error', 'Gagal memperbarui data akreditasi. Error: ' . $e->getMessage())
+                ->withInput();
         }
     }
 

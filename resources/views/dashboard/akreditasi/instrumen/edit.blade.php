@@ -1,8 +1,8 @@
 @extends('layouts.admin_template')
-@section('title', 'penjaminan mutu')
+@section('title', 'Instrumen Akreditasi')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Edit Data Penjaminan Mutu</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Edit Data Instrumen Akreditasi</h4>
 
     <div class="row">
         @if ($message = Session::get('success'))
@@ -19,52 +19,36 @@
         @endif
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Edit Dokumen Penjaminan Mutu</h5>
+                <h5 class="card-header">Edit Instrumen Akreditasi</h5>
                 <div class="card-body">
                     <div class="col-lg-12">
-                        <form method="POST" action="{{ route('penjaminanmutu.update', $penjaminanmutu->id) }}" class="mt-5"
+                        <form method="POST" action="{{ route('instrumenakred.update', $instrumen->id) }}" class="mt-5"
                             enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
+
                             <div class="mb-3">
-                                <label for="body" class="form-label">Konten Penjaminan Mutu</label>
+                                <label for="body" class="form-label">Instrumen</label>
                                 @error('body')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
                                 <input id="body" type="hidden" name="body"
-                                    value="{{ old('body', $penjaminanmutu->body) }}">
+                                    value="{{ old('body', $instrumen->body) }}">
                                 <trix-editor input="body"></trix-editor>
                             </div>
-
+                            
                             <div class="mb-3">
-                                <label for="filedata" class="form-label">File Penjaminan Mutu (PDF only)</label>
-                                <input type="hidden" name="oldFile" value="{{ $penjaminanmutu->filedata }}">
-                                @if ($penjaminanmutu->filedata)
-                                <div id="current-pdf" class="my-3">
-                                    <p>File Saat Ini:</p>
-                                    <embed src="{{ asset('storage/' . $penjaminanmutu->filedata) }}" width="100%" height="500px" type="application/pdf">
-                                    <div class="mt-2">
-                                        <a href="{{ asset('storage/' . $penjaminanmutu->filedata) }}" target="_blank" class="btn btn-sm btn-info">Lihat PDF Lengkap</a>
-                                    </div>
-                                </div>
-                                @endif
-                                <div id="pdf-preview" class="my-3 d-none">
-                                    <p>Pratinjau File Baru:</p>
-                                    <embed id="pdf-embed" src="" width="100%" height="500px" type="application/pdf">
-                                </div>
-                                <input class="form-control @error('filedata') is-invalid @enderror" type="file"
-                                    id="filedata" name="filedata" accept="application/pdf"
-                                    onchange="previewPDF()">
-                                @error('filedata')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <label for="peringkat" class="form-label">Link (Form)</label>
+                                @error('link')
+                                <p class="text-danger">{{ $message }}</p>
                                 @enderror
+                                <input type="text" class="form-control" id="link" name="link" 
+                                    value="{{ old('link', $instrumen->link) }}">
                             </div>
 
                             <div class="mt-3">
                                 <input type="submit" value="Perbarui" id="save" name="save" class="btn btn-primary">
-                                <a href="{{ route('penjaminanmutu.index') }}" class="btn btn-secondary">Batal</a>
+                                <a href="{{ route('instrumenakred.index') }}" class="btn btn-secondary">Batal</a>
                             </div>
                         </form>
                     </div>
