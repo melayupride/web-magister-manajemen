@@ -72,7 +72,7 @@
             <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
                 <h4>Contact Us</h4>
                 <p>
-                    {{ $contactSocial->address ?? 'Jl. Tgk Chik Ditiro No. 26, <br>Lancang Garam, Kota Lhokseumawe <br>Provinsi Aceh - Indonesia' }}
+                    {!! $contactSocial->address ?? '<div>Jl. Tgk Chik Ditiro No. 26, <br>Lancang Garam, Kota Lhokseumawe <br>Provinsi Aceh - Indonesia</div>' !!}
                     <br>
                     <strong>Phone:</strong> {{ $contactSocial->phone ?? '-' }}<br>
                     <strong>Fax:</strong> {{ $contactSocial->fax ?? '-' }}<br>
