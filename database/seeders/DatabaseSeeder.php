@@ -40,6 +40,15 @@ class DatabaseSeeder extends Seeder
             AkreditasiTableSeeder::class,
             ContactSocialTableSeeder::class,
             KunjunganTableSeeder::class,
+            LogoKerjasamaTableSeeder::class,
+            KelenderTableSeeder::class,
+            GaleriAkademikTableSeeder::class,
+            PanduanAkademikTableSeeder::class,
+            DownloadAkademikTableSeeder::class,
+            SemesterStatusTableSeeder::class,
+            SemesterDuaTableSeeder::class,
+            SemesterTigaTableSeeder::class,
+            SemesterEmpatTableSeeder::class,
             // Tambahkan seeder lainnya di sini
         ]);
     }
