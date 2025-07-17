@@ -21,6 +21,18 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            CategoriesTableSeeder::class,
+            PostsTableSeeder::class,
+            SejarahPMIMTableSeeder::class,
+            VisiMisiPMIMTableSeeder::class,
+            ProfilLulusanTableSeeder::class,
+            CategoryProdukTableSeeder::class,
+            ProdukTableSeeder::class,
+            KerjasamaTableSeeder::class,
+            RencanaStrategisTableSeeder::class,
+            OrganisTableSeeder::class,
+            StafTableSeeder::class,
+            DaftarDosenTableSeeder::class,
             // Tambahkan seeder lainnya di sini
         ]);
     }
